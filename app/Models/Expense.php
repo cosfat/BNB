@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $price
  * @property $category_id
  * @property $user_id
+ * @property $house_id
  * @property $created_at
  * @property $updated_at
  *
@@ -20,12 +21,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Expense extends Model
 {
-    
+
     static $rules = [
 		'name' => 'required',
 		'price' => 'required',
 		'category_id' => 'required',
 		'user_id' => 'required',
+		'house_id' => 'required'
     ];
 
     protected $perPage = 20;
@@ -35,7 +37,7 @@ class Expense extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','price','category_id','user_id'];
+    protected $fillable = ['name','price','category_id','user_id', 'house_id'];
 
 
 

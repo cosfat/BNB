@@ -1,33 +1,38 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ $house->name ?? 'Show House' }}
+        </h2>
+    </x-slot>
 
-@section('template_title')
-    {{ $house->name ?? 'Show House' }}
-@endsection
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <section class="content container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="float-right">
+                                            <a class="btn btn-primary" href="{{ route('houses.index') }}"> Back</a>
+                                        </div>
+                                    </div>
 
-@section('content')
-    <section class="content container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="float-left">
-                            <span class="card-title">Show House</span>
+                                    <div class="card-body">
+
+                                        <div class="form-group">
+                                            <strong>Name:</strong>
+                                            {{ $house->name }}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('houses.index') }}"> Back</a>
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        
-                        <div class="form-group">
-                            <strong>Name:</strong>
-                            {{ $house->name }}
-                        </div>
-
-                    </div>
+                    </section>
                 </div>
             </div>
         </div>
-    </section>
-@endsection
+    </div>
+</x-app-layout>

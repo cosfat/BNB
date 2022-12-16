@@ -21,13 +21,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Reservation extends Model
 {
-    
+
     static $rules = [
 		'name' => 'required',
 		'start' => 'required',
 		'finish' => 'required',
 		'price' => 'required',
-		'info' => 'required',
     ];
 
     protected $perPage = 20;

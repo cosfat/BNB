@@ -15,16 +15,16 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('houses')" :active="request()->routeIs('houses')">
+                    <x-nav-link :href="route('houses.index')" :active="request()->routeIs('houses.index')">
                         {{ __('Houses') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('reservations')" :active="request()->routeIs('reservations')">
+                    <x-nav-link :href="route('reservations.index')" :active="request()->routeIs('reservations.index')">
                         {{ __('Reservations') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('categories')" :active="request()->routeIs('categories')">
+                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
                         {{ __('Categories') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('expenses')" :active="request()->routeIs('expenses')">
+                    <x-nav-link :href="route('expenses.index')" :active="request()->routeIs('expenses.index')">
                         {{ __('Expenses') }}
                     </x-nav-link>
                 </div>

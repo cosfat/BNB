@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->text('name');
             $table->decimal('price');
+            $table->integer('house_id');
             $table->integer('category_id');
             $table->integer('user_id');
             $table->timestamps();

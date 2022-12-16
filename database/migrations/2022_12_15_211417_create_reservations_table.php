@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->text('name');
-            $table->timestamp('start');
-            $table->timestamp('finish');
+            $table->date('start');
+            $table->date('finish');
             $table->decimal('price');
-            $table->text('info');
+            $table->text('info')->nullable();
             $table->timestamps();
         });
     }

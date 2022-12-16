@@ -1,6 +1,6 @@
 <div class="box box-info padding-1">
     <div class="box-body">
-        
+
         <div class="form-group">
             {{ Form::label('name') }}
             {{ Form::text('name', $expense->name, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'Name']) }}
@@ -10,6 +10,11 @@
             {{ Form::label('price') }}
             {{ Form::text('price', $expense->price, ['class' => 'form-control' . ($errors->has('price') ? ' is-invalid' : ''), 'placeholder' => 'Price']) }}
             {!! $errors->first('price', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
+        <div class="form-group">
+            {{ Form::label('house_id') }}
+            {{ Form::text('house_id', $expense->house_id, ['class' => 'form-control' . ($errors->has('house_id') ? ' is-invalid' : ''), 'placeholder' => 'house Id']) }}
+            {!! $errors->first('house_id', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('category_id') }}
