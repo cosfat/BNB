@@ -1,45 +1,44 @@
-<div class="box box-info padding-1">
-    <div class="box-body">
-        <div class="form-group">
-            {{ Form::label('name') }}
-            {{ Form::text('name', $expense->name, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'Name']) }}
+
+<div>
+<x-input-label for="name" :value="__('Expense name')" />
+<x-text-input id="name" name="name" type="text" class="mt-1 block w-full" placeholder="{{ $expense->name }}" value="{{ $expense->name }}" />
             {!! $errors->first('name', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
-        <div class="form-group">
-            {{ Form::label('price') }}
-            {{ Form::text('price', $expense->price, ['class' => 'form-control' . ($errors->has('price') ? ' is-invalid' : ''), 'placeholder' => 'Price']) }}
+</div>
+<div>
+
+<x-input-label for="name" :value="__('Price')" />
+<x-text-input id="price" name="price" type="text" class="mt-1 block w-full" placeholder="{{ $expense->price }}" value="{{ $expense->price }}" />
             {!! $errors->first('price', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
-        <div class="form-group">
-            {{ Form::label('house_id') }}
-            <select id="house_id" class="form-control">
+
+</div>
+<div>
+    <x-input-label for="house_id" :value="__('House')" />
+    <select id="house_id" name="house_id" class="mt-1 block w-full"  />
                 @foreach ($houses as $house)
-                    <option value="{{ $house->id }}">{{ $house->name }}</option>
+                    <option @if($expense->house_id == $house->id) selected @endif  value="{{ $house->id }}">{{ $house->name }}</option>
                 @endforeach
-            </select>
-            {!! $errors->first('house_id', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
-        <div class="form-group">
-            {{ Form::label('category_id') }}
-            <select id="category_id" class="form-control">
+</select>
+
+        {!! $errors->first('house_id', '<div class="invalid-feedback">:message</div>') !!}
+</div>
+<div>
+    <x-input-label for="category_id" :value="__('Category')" />
+            <select name="category_id" id="category_id" class="mt-1 block w-full">
                 @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option @if($expense->category_id == $category->id) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
             {!! $errors->first('category_id', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
-        <div class="form-group">
-            {{ Form::label('user_id') }}
-            <select id="user_id" class="form-control">
+</div>
+<div>
+<x-input-label for="user_id" :value="__('User')" />
+            <select name="user_id" id="user_id" class="mt-1 block w-full">
                 @foreach ($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    <option @if($expense->user_id == $user->id) selected @endif  value="{{ $user->id }}">{{ $user->name }}</option>
                 @endforeach
             </select>
             {!! $errors->first('user_id', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
-
-    </div>
-    <div class="box-footer mt20">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
 </div>
+            <div class="flex items-center gap-4">
+                <x-primary-button>{{ __('Save') }}</x-primary-button>
+            </div>

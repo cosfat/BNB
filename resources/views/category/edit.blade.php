@@ -6,29 +6,18 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <section class="content container-fluid">
-                        <div class="">
-                            <div class="col-md-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    @includeif('partials.errors')
+                    <form method="POST" action="{{ route('categories.update', $category->id) }}" role="form"
+                          enctype="multipart/form-data" class="mt-6 space-y-6">
+                        {{ method_field('PATCH') }}
+                        @csrf
 
-                                @includeif('partials.errors')
+                        @include('category.form')
 
-                                <div class="card card-default">
-                                    <div class="card-body">
-                                        <form method="POST" action="{{ route('categories.update', $category->id) }}"  role="form" enctype="multipart/form-data">
-                                            {{ method_field('PATCH') }}
-                                            @csrf
-
-                                            @include('category.form')
-
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    </form>
                 </div>
             </div>
         </div>

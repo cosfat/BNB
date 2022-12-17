@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class House extends Model
 {
-    
+
     static $rules = [
 		'name' => 'required',
     ];
@@ -31,6 +31,14 @@ class House extends Model
      */
     protected $fillable = ['name'];
 
+    public function reservations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Reservation::class);
+    }
 
+    public function expenses(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Expense::class);
+    }
 
 }

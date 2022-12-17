@@ -1,14 +1,8 @@
-<div class="box box-info padding-1">
-    <div class="box-body">
-        
-        <div class="form-group">
-            {{ Form::label('name') }}
-            {{ Form::text('name', $category->name, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'Name']) }}
-            {!! $errors->first('name', '<div class="invalid-feedback">:message</div>') !!}
-        </div>
-
-    </div>
-    <div class="box-footer mt20">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
+<div>
+    <x-input-label for="name" :value="__('Category name')" />
+    <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" placeholder="{{ $category->name }}" value="{{ $category->name }}" />
+    {!! $errors->first('name', '<div class="invalid-feedback">:message</div>') !!}
+</div>
+<div class="flex items-center gap-4">
+    <x-primary-button>{{ __('Save') }}</x-primary-button>
 </div>

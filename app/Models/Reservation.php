@@ -40,6 +40,11 @@ class Reservation extends Model
      */
     protected $fillable = ['name', 'house_id', 'start','finish','price','info'];
 
+    public function house(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(House::class);
+    }
+
 
 
 }

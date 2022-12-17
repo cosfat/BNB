@@ -1,31 +1,25 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Update Reservation') }}
+        </h2>
+    </x-slot>
 
-@section('template_title')
-    Update Reservation
-@endsection
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    @includeif('partials.errors')
+                    <form method="POST" action="{{ route('reservations.update', $reservation->id) }}" role="form"
+                          enctype="multipart/form-data" class="mt-6 space-y-6">
+                        {{ method_field('PATCH') }}
+                        @csrf
 
-@section('content')
-    <section class="content container-fluid">
-        <div class="">
-            <div class="col-md-12">
+                        @include('reservation.form')
 
-                @includeif('partials.errors')
-
-                <div class="card card-default">
-                    <div class="card-header">
-                        <span class="card-title">Update Reservation</span>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('reservations.update', $reservation->id) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            @csrf
-
-                            @include('reservation.form')
-
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
-@endsection
+    </div>
+</x-app-layout>
