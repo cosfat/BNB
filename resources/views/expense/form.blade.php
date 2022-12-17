@@ -1,6 +1,5 @@
 <div class="box box-info padding-1">
     <div class="box-body">
-
         <div class="form-group">
             {{ Form::label('name') }}
             {{ Form::text('name', $expense->name, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'Name']) }}
@@ -13,17 +12,29 @@
         </div>
         <div class="form-group">
             {{ Form::label('house_id') }}
-            {{ Form::text('house_id', $expense->house_id, ['class' => 'form-control' . ($errors->has('house_id') ? ' is-invalid' : ''), 'placeholder' => 'house Id']) }}
+            <select id="house_id" class="form-control">
+                @foreach ($houses as $house)
+                    <option value="{{ $house->id }}">{{ $house->name }}</option>
+                @endforeach
+            </select>
             {!! $errors->first('house_id', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('category_id') }}
-            {{ Form::text('category_id', $expense->category_id, ['class' => 'form-control' . ($errors->has('category_id') ? ' is-invalid' : ''), 'placeholder' => 'Category Id']) }}
+            <select id="category_id" class="form-control">
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
             {!! $errors->first('category_id', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('user_id') }}
-            {{ Form::text('user_id', $expense->user_id, ['class' => 'form-control' . ($errors->has('user_id') ? ' is-invalid' : ''), 'placeholder' => 'User Id']) }}
+            <select id="user_id" class="form-control">
+                @foreach ($users as $user)
+                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                @endforeach
+            </select>
             {!! $errors->first('user_id', '<div class="invalid-feedback">:message</div>') !!}
         </div>
 

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Expense;
+use App\Models\House;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -31,8 +34,11 @@ class ExpenseController extends Controller
      */
     public function create()
     {
+        $houses = House::all();
+        $categories = Category::all();
+        $users = User::all();
         $expense = new Expense();
-        return view('expense.create', compact('expense'));
+        return view('expense.create', compact('expense', 'houses', 'categories', 'users'));
     }
 
     /**
@@ -73,8 +79,10 @@ class ExpenseController extends Controller
     public function edit($id)
     {
         $expense = Expense::find($id);
-
-        return view('expense.edit', compact('expense'));
+        $houses = House::all();
+        $categories = Category::all();
+        $users = User::all();
+        return view('expense.edit', compact('expense', 'houses', 'categories', 'users'));
     }
 
     /**

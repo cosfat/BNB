@@ -9,6 +9,15 @@
             {!! $errors->first('name', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
+            {{ Form::label('house_id') }}
+            <select id="house_id" class="form-control">
+                @foreach ($houses as $house)
+                    <option value="{{ $house->id }}">{{ $house->name }}</option>
+                @endforeach
+            </select>
+            {!! $errors->first('house_id', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
+        <div class="form-group">
             {{ Form::label('start') }}
             {{ Form::text('start', $reservation->start, ['class' => 'form-control' . ($errors->has('start') ? ' is-invalid' : ''), 'placeholder' => 'Start', 'id' => 'datepicker1']) }}
             {!! $errors->first('start', '<div class="invalid-feedback">:message</div>') !!}

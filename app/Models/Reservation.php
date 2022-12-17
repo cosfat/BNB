@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property $id
  * @property $name
+ * @property $house_id
  * @property $start
  * @property $finish
  * @property $price
@@ -24,6 +25,7 @@ class Reservation extends Model
 
     static $rules = [
 		'name' => 'required',
+		'house_id' => 'required',
 		'start' => 'required',
 		'finish' => 'required',
 		'price' => 'required',
@@ -36,7 +38,7 @@ class Reservation extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','start','finish','price','info'];
+    protected $fillable = ['name', 'house_id', 'start','finish','price','info'];
 
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\House;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 
@@ -32,7 +33,8 @@ class ReservationController extends Controller
     public function create()
     {
         $reservation = new Reservation();
-        return view('reservation.create', compact('reservation'));
+        $houses = House::all();
+        return view('reservation.create', compact('reservation', 'houses'));
     }
 
     /**
@@ -73,8 +75,9 @@ class ReservationController extends Controller
     public function edit($id)
     {
         $reservation = Reservation::find($id);
+        $houses = House::all();
 
-        return view('reservation.edit', compact('reservation'));
+        return view('reservation.edit', compact('reservation', 'houses'));
     }
 
     /**
