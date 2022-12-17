@@ -21,7 +21,7 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        $expenses = Expense::paginate();
+        $expenses = Expense::orderBy('id', 'desc')->paginate();
 
         return view('expense.index', compact('expenses'))
             ->with('i', (request()->input('page', 1) - 1) * $expenses->perPage());

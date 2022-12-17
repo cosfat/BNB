@@ -24,6 +24,7 @@
                             <th>No</th>
 
                             <th>Name</th>
+                            <th>House</th>
                             <th>Start</th>
                             <th>Finish</th>
                             <th>Price</th>
@@ -38,6 +39,7 @@
                                 <td>{{ ++$i }}</td>
 
                                 <td>{{ $reservation->name }}</td>
+                                <td>{{ $reservation->house->name }}</td>
                                 <td>{{ $reservation->start }}</td>
                                 <td>{{ $reservation->finish }}</td>
                                 <td>{{ $reservation->price }}</td>
