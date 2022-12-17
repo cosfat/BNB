@@ -4,7 +4,6 @@
             {{ __('Houses') }}
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -12,7 +11,7 @@
                    <a href="{{ route('houses.create') }}"><x-primary-button>{{ __('Create House') }}</x-primary-button></a>
                 </div>
                 @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-success mt-8">
                         <p>{{ $message }}</p>
                     </div>
                 @endif
@@ -37,8 +36,6 @@
 
                                 <td>
                                     <form action="{{ route('houses.destroy',$house->id) }}" method="POST">
-                                        <a class="btn btn-sm btn-primary " href="{{ route('houses.show',$house->id) }}"><i
-                                                class="fa fa-fw fa-eye"></i> Show</a>
                                         <a class="btn btn-sm btn-success" href="{{ route('houses.edit',$house->id) }}"><i
                                                 class="fa fa-fw fa-edit"></i> Edit</a>
                                         @csrf

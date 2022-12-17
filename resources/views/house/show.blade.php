@@ -8,12 +8,6 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <section class="content container-fluid">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
                                         <div class="float-right">
                                             <a class="btn btn-primary" href="{{ route('houses.index') }}"> Back</a>
                                         </div>
@@ -29,10 +23,4 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
-    </div>
 </x-app-layout>
