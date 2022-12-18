@@ -6,6 +6,7 @@ use App\Models\Dashboard;
 use App\Models\Expense;
 use App\Models\House;
 use App\Models\Reservation;
+use App\Models\Worker;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -29,21 +30,61 @@ class DashboardController extends Controller
             $year = date('Y');
         }
 
+        $mesaiUcreti = 2000;
+        $huzurOrani = 10;
+        $huzurSahibi = 2; //worker ID Zafer;
+        $turkishMonth = Carbon::create($year, $month)->translatedFormat('F');
+
+        $oncekiAy = Carbon::create($year, $month)->subMonth();
+        $sonrakiAy = Carbon::create($year, $month)->addMonth();
+
+        $workers = Worker::all();
         $records = $this->monthlyReservations($month, $year)->sum('price');
         $expenses = round($this->monthlyExpenses($month, $year)->sum('price'), 2);
         $bilanco = round($this->bilancoMonthly($month, $year), 2);
         $hesaplasma = $this->hesaplasmaMonthly($month, $year);
         $houses = House::all();
 
-        $doluluks = array();
+        $lastExpenses = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->orderBy('id', 'desc')->limit(20)->get();
 
-        foreach ($houses as $house) {
-            $doluluks[$house->id] = $this->doluluk($month, $year, $house->id);
+
+        $kisiHarcamas = array();
+
+        // Kişilere göre
+        foreach ($workers as $worker) {
+            $kisiHarcamas[] = array($worker->name, $this->monthlyExpensesByWorker($month, $year, $worker->id));
         }
 
-        print_r($doluluks);
+        // Evlere göre
+        $doluluks = array();
+        $harcamas = array();
+        $bilancos = array();
+        $mesais = array();
+        foreach ($workers as $worker) {
+            if ($worker->id == $huzurSahibi) {
+                $huzurHakki = $bilanco * $huzurOrani / 100;
+            } else {
+                $huzurHakki = 0;
+            }
+            $mesaiSayisi = $this->mesaiSayisi($month, $year, $worker->id);
+            $mesais[] = array($worker->name, $mesaiSayisi, $huzurHakki);
+        }
 
-        return view('dashboard')->with(compact('records', 'expenses', 'bilanco', 'hesaplasma'));
+        foreach ($houses as $house) {
+            $doluluks[] = array($house->name, $this->doluluk($month, $year, $house->id));
+            $harcamas[] = array($house->name, round($this->monthlyExpensesByHouse($month, $year, $house->id), 2));
+            $bilancos[] = array($house->name, round($this->bilancoByHouseMonthly($month, $year, $house->id), 2));
+        }
+
+        return view('dashboard')->with(compact('records', 'expenses', 'bilanco', 'hesaplasma', 'doluluks', 'harcamas', 'bilancos', 'turkishMonth', 'oncekiAy', 'sonrakiAy', 'mesais', 'mesaiUcreti', 'huzurOrani', 'huzurSahibi', 'kisiHarcamas', 'lastExpenses'));
+    }
+
+    public function mesaiSayisi($m, $y, $w)
+    {
+        $records = Reservation::whereMonth('start', $m)->whereYear('start', $y)->whereWorker_id($w)->count();
+        $records2 = Reservation::where('info', 'mesaisiz')->whereMonth('start', $m)->whereYear('start', $y)->whereWorker_id($w)->count();
+
+        return $records - $records2;
     }
 
     public function monthlyReservations($m, $y, $h = "")
@@ -59,14 +100,14 @@ class DashboardController extends Controller
                 $query->whereMonth('start', $m)->where('finish', '>', Carbon::create($y, $m));
             })->get();
         } else {
-            return $records = Reservation::where('house_id', $h)->where(function ($query) use ($m, $y) {
-                $query->whereMonth('start', $m)->whereMonth('finish', $m)->whereYear('start', $y)->whereYear('finish', $y);
-            })->orWhere(function ($query) use ($m, $y) {
-                $query->where('start', '<', Carbon::create($y, $m))->where(function ($query) use ($m, $y) {
-                    $query->whereMonth('finish', $m)->orWhere('finish', '>', Carbon::create($y, $m));
+            return $records = Reservation::where(function ($query) use ($m, $y, $h) {
+                $query->whereHouse_id($h)->whereMonth('start', $m)->whereMonth('finish', $m)->whereYear('start', $y)->whereYear('finish', $y);
+            })->orWhere(function ($query) use ($m, $y, $h) {
+                $query->whereHouse_id($h)->where('start', '<', Carbon::create($y, $m))->where(function ($query) use ($m, $y, $h) {
+                    $query->whereHouse_id($h)->whereMonth('finish', $m)->orWhere('finish', '>', Carbon::create($y, $m));
                 });
-            })->orWhere(function ($query) use ($m, $y) {
-                $query->whereMonth('start', $m)->where('finish', '>', Carbon::create($y, $m));
+            })->orWhere(function ($query) use ($m, $y, $h) {
+                $query->whereHouse_id($h)->whereMonth('start', $m)->where('finish', '>', Carbon::create($y, $m));
             })->get();
         }
 
@@ -104,6 +145,37 @@ class DashboardController extends Controller
         return $sonuc;
     }
 
+    public function bilancoByHouseMonthly($m, $y, $h)
+    {
+        $sonuc = 0;
+        $records = $this->monthlyReservations($m, $y, $h);
+        foreach ($records as $record) {
+            $price = $record->price;
+            $start = Carbon::create($record->start);
+            $start2 = Carbon::create($record->start);
+            $finish = Carbon::create($record->finish);
+
+            if ($start->format('m') == $m and $finish->format('m') == $m) {
+                $tutar = $price;
+            } elseif ($finish->format('m') == $m) {
+                $gun = $finish->format('j') - 1;
+                $tutar = ($price / $finish->diff($start)->days) * $gun;
+            } elseif ($start->format('m') == $m) {
+                $endofMonth = $start->endOfMonth()->format('j');
+                $today = $start2->format('j');
+                $fark = $endofMonth - $today + 1;
+                $birim = $price / $finish->diff($start2)->days;
+                $tutar = $birim * $fark;
+            } else {
+                $gun = Carbon::create($y, $m)->endOfMonth()->format('j');
+                $tutar = ($price / $finish->diff($start)->days) * $gun;
+            }
+
+            $sonuc += $tutar;
+        }
+
+        return $sonuc;
+    }
 
     public function hesaplasmaMonthly($m, $y)
     {
@@ -126,6 +198,15 @@ class DashboardController extends Controller
         return $expenses = Expense::whereMonth('created_at', $m)->whereYear('created_at', $y)->get();
     }
 
+    public function monthlyExpensesByHouse($m, $y, $h)
+    {
+        return $expenses = Expense::whereHouse_id($h)->whereMonth('created_at', $m)->whereYear('created_at', $y)->sum('price');
+    }
+
+    public function monthlyExpensesByWorker($m, $y, $w)
+    {
+        return $expenses = Expense::whereWorker_id($w)->whereMonth('created_at', $m)->whereYear('created_at', $y)->sum('price');
+    }
 
     public function doluluk($m, $y, $h)
     {

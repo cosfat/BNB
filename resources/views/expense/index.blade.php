@@ -27,7 +27,7 @@
                             <th>Category</th>
                             <th>House</th>
                             <th>Price</th>
-                            <th>User</th>
+                            <th>Worker</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -39,7 +39,7 @@
                                 <td>{{ $expense->category->name }}</td>
                                 <td>{{ $expense->house->name }}</td>
                                 <td>{{ $expense->price }}</td>
-                                <td>{{ $expense->user->name }}</td>
+                                <td>{{ $expense->worker->name }}</td>
                                 <td>{{ $expense->created_at }}</td>
 
                                 <td>

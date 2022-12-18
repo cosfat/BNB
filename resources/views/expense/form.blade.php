@@ -22,23 +22,25 @@
         {!! $errors->first('house_id', '<div class="invalid-feedback">:message</div>') !!}
 </div>
 <div>
-    <x-input-label for="category_id" :value="__('Category')" />
-            <select name="category_id" id="category_id" class="mt-1 block w-full">
-                @foreach ($categories as $category)
-                    <option @if($expense->category_id == $category->id) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-            </select>
-            {!! $errors->first('category_id', '<div class="invalid-feedback">:message</div>') !!}
+    <x-input-label for="category_id" :value="__('Category')"/>
+    <select name="category_id" id="category_id" class="mt-1 block w-full">
+        @foreach ($categories as $category)
+            <option @if($expense->category_id == $category->id) selected
+                    @endif value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+    </select>
+    {!! $errors->first('category_id', '<div class="invalid-feedback">:message</div>') !!}
 </div>
 <div>
-<x-input-label for="user_id" :value="__('User')" />
-            <select name="user_id" id="user_id" class="mt-1 block w-full">
-                @foreach ($users as $user)
-                    <option @if($expense->user_id == $user->id) selected @endif  value="{{ $user->id }}">{{ $user->name }}</option>
-                @endforeach
-            </select>
-            {!! $errors->first('user_id', '<div class="invalid-feedback">:message</div>') !!}
+    <x-input-label for="worker_id" :value="__('Worker')"/>
+    <select name="worker_id" id="worker_id" class="mt-1 block w-full">
+        @foreach ($workers as $worker)
+            <option @if($expense->worker_id == $worker->id) selected
+                    @endif  value="{{ $worker->id }}">{{ $worker->name }}</option>
+        @endforeach
+    </select>
+    {!! $errors->first('worker_id', '<div class="invalid-feedback">:message</div>') !!}
 </div>
-            <div class="flex items-center gap-4">
-                <x-primary-button>{{ __('Save') }}</x-primary-button>
-            </div>
+<div class="flex items-center gap-4">
+    <x-primary-button>{{ __('Save') }}</x-primary-button>
+</div>

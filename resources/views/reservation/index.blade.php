@@ -28,6 +28,7 @@
                             <th>Start</th>
                             <th>Finish</th>
                             <th>Price</th>
+                            <th>Worker</th>
                             <th>Info</th>
 
                             <th></th>
@@ -43,6 +44,7 @@
                                 <td>{{ $reservation->start }}</td>
                                 <td>{{ $reservation->finish }}</td>
                                 <td>{{ $reservation->price }}</td>
+                                <td>{{ $reservation->worker->name }}</td>
                                 <td>{{ $reservation->info }}</td>
 
                                 <td>

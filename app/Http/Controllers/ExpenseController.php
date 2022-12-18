@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Expense;
 use App\Models\House;
-use App\Models\User;
+use App\Models\Worker;
 use Illuminate\Http\Request;
 
 /**
@@ -36,9 +36,9 @@ class ExpenseController extends Controller
     {
         $houses = House::all();
         $categories = Category::all();
-        $users = User::all();
+        $workers = Worker::all();
         $expense = new Expense();
-        return view('expense.create', compact('expense', 'houses', 'categories', 'users'));
+        return view('expense.create', compact('expense', 'houses', 'categories', 'workers'));
     }
 
     /**
@@ -52,6 +52,8 @@ class ExpenseController extends Controller
         request()->validate(Expense::$rules);
 
         $expense = Expense::create($request->all());
+        /*   $expense->created_at = "2022-09-01";
+           $expense->update();*/
 
         return redirect()->route('expenses.index')
             ->with('success', 'Expense created successfully.');
@@ -81,8 +83,8 @@ class ExpenseController extends Controller
         $expense = Expense::find($id);
         $houses = House::all();
         $categories = Category::all();
-        $users = User::all();
-        return view('expense.edit', compact('expense', 'houses', 'categories', 'users'));
+        $workers = Worker::all();
+        return view('expense.edit', compact('expense', 'houses', 'categories', 'workers'));
     }
 
     /**

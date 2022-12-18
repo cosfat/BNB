@@ -18,14 +18,14 @@
 
 <div>
     <x-input-label for="start" :value="__('Start')"/>
-    <x-text-input id="datepicker1" name="start" type="text" class="mt-1 block w-full"
+    <x-text-input id="datepicker1" name="start" type="text" class="mt-1 block w-full" autocomplete="off"
                   value="{{ $reservation->start }}"></x-text-input>
     {!! $errors->first('start', '<div class="invalid-feedback">:message</div>') !!}
 </div>
 
 <div>
     <x-input-label for="finish" :value="__('Finish')"/>
-    <x-text-input id="datepicker2" name="finish" type="text" class="mt-1 block w-full"
+    <x-text-input id="datepicker2" name="finish" type="text" class="mt-1 block w-full" autocomplete="off"
                   value="{{ $reservation->finish }}"></x-text-input>
     {!! $errors->first('finish', '<div class="invalid-feedback">:message</div>') !!}
 </div>
@@ -38,6 +38,16 @@
     {!! $errors->first('price', '<div class="invalid-feedback">:message</div>') !!}
 </div>
 
+<div>
+    <x-input-label for="worker_id" :value="__('Worker name')"/>
+    <select name="worker_id" id="worker_id" class="mt-1 block w-full">
+        @foreach ($workers as $worker)
+            <option @if($reservation->worker_id == $worker->id) selected
+                    @endif value="{{ $worker->id }}">{{ $worker->name }}</option>
+        @endforeach
+    </select>
+    {!! $errors->first('worker_id', '<div class="invalid-feedback">:message</div>') !!}
+</div>
 
 <div>
     <x-input-label for="info" :value="__('Info')"/>

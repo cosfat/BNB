@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\House;
 use App\Models\Reservation;
+use App\Models\Worker;
 use Illuminate\Http\Request;
 
 /**
@@ -19,7 +20,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = Reservation::paginate();
+        $reservations = Reservation::orderBy('start', 'asc')->paginate();
 
         return view('reservation.index', compact('reservations'))
             ->with('i', (request()->input('page', 1) - 1) * $reservations->perPage());
@@ -34,7 +35,8 @@ class ReservationController extends Controller
     {
         $reservation = new Reservation();
         $houses = House::all();
-        return view('reservation.create', compact('reservation', 'houses'));
+        $workers = Worker::all();
+        return view('reservation.create', compact('reservation', 'houses', 'workers'));
     }
 
     /**
@@ -76,8 +78,9 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::find($id);
         $houses = House::all();
+        $workers = Worker::all();
 
-        return view('reservation.edit', compact('reservation', 'houses'));
+        return view('reservation.edit', compact('reservation', 'houses', 'workers'));
     }
 
     /**

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('start');
             $table->date('finish');
             $table->decimal('price');
+            $table->integer('worker_id');
             $table->text('info')->nullable();
             $table->timestamps();
         });
