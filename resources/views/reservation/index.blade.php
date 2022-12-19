@@ -21,8 +21,6 @@
                     <table class="table md:border-t-0">
                         <thead class="thead">
                         <tr>
-                            <th>No</th>
-
                             <th>Name</th>
                             <th>House</th>
                             <th>Start</th>
@@ -37,8 +35,6 @@
                         <tbody>
                         @foreach ($reservations as $reservation)
                             <tr>
-                                <td>{{ ++$i }}</td>
-
                                 <td>{{ $reservation->name }}</td>
                                 <td>{{ $reservation->house->name }}</td>
                                 <td>{{ $reservation->start }}</td>
@@ -50,14 +46,11 @@
                                 <td>
                                     <form action="{{ route('reservations.destroy',$reservation->id) }}"
                                           method="POST">
-                                        <a class="btn btn-sm btn-success"
-                                           href="{{ route('reservations.edit',$reservation->id) }}"><i
-                                                class="fa fa-fw fa-edit"></i> Edit</a>
+                                        <x-secondary-button><a href="{{ route('reservations.edit',$reservation->id) }}">Edit</a>
+                                        </x-secondary-button>
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"><i
-                                                class="fa fa-fw fa-trash"></i> Delete
-                                        </button>
+                                        <x-danger-button>Delete</x-danger-button>
                                     </form>
                                 </td>
                             </tr>

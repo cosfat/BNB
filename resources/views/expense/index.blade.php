@@ -44,15 +44,11 @@
 
                                 <td>
                                     <form action="{{ route('expenses.destroy',$expense->id) }}" method="POST">
-                                        <a class="btn btn-sm btn-success"
-                                           href="{{ route('expenses.edit',$expense->id) }}"><i
-                                                class="fa fa-fw fa-edit"></i>
-                                            Edit</a>
+                                        <x-secondary-button><a href="{{ route('expenses.edit',$expense->id) }}">Edit</a>
+                                        </x-secondary-button>
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"><i
-                                                class="fa fa-fw fa-trash"></i> Delete
-                                        </button>
+                                        <x-danger-button>Delete</x-danger-button>
                                     </form>
                                 </td>
                             </tr>
