@@ -41,7 +41,7 @@
                                 <td>{{ $reservation->finish }}</td>
                                 <td>{{ $reservation->price }}</td>
                                 <td>{{ $reservation->worker->name }}</td>
-                                <td>{{ $reservation->info }}</td>
+                                <td style="max-width: 100px">{{ $reservation->info }}</td>
 
                                 <td>
                                     <form action="{{ route('reservations.destroy',$reservation->id) }}"
@@ -57,8 +57,8 @@
                         @endforeach
                         </tbody>
                     </table>
+                    {!! $reservations->links() !!}
                 </div>
             </div>
         </div>
-    {!! $reservations->links() !!}
 </x-app-layout>

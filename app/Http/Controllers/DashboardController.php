@@ -30,6 +30,8 @@ class DashboardController extends Controller
             $year = date('Y');
         }
 
+        $lastReservations = Reservation::orderBy('id', 'desc')->limit(10)->get();
+
         $mesaiUcreti = 2000;
         $huzurOrani = 10;
         $huzurSahibi = 2; //worker ID Zafer;
@@ -45,7 +47,7 @@ class DashboardController extends Controller
         $hesaplasma = $this->hesaplasmaMonthly($month, $year);
         $houses = House::all();
 
-        $lastExpenses = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->orderBy('id', 'desc')->limit(20)->get();
+        $lastExpenses = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->orderBy('id', 'desc')->limit(10)->get();
 
 
         $kisiHarcamas = array();
@@ -76,7 +78,7 @@ class DashboardController extends Controller
             $bilancos[] = array($house->name, round($this->bilancoByHouseMonthly($month, $year, $house->id), 2));
         }
 
-        return view('dashboard')->with(compact('records', 'expenses', 'bilanco', 'hesaplasma', 'doluluks', 'harcamas', 'bilancos', 'turkishMonth', 'oncekiAy', 'sonrakiAy', 'mesais', 'mesaiUcreti', 'huzurOrani', 'huzurSahibi', 'kisiHarcamas', 'lastExpenses'));
+        return view('dashboard')->with(compact('lastReservations','records', 'expenses', 'bilanco', 'hesaplasma', 'doluluks', 'harcamas', 'bilancos', 'turkishMonth', 'oncekiAy', 'sonrakiAy', 'mesais', 'mesaiUcreti', 'huzurOrani', 'huzurSahibi', 'kisiHarcamas', 'lastExpenses'));
     }
 
     public function mesaiSayisi($m, $y, $w)
