@@ -19,7 +19,6 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::paginate();
-
         return view('category.index', compact('categories'))
             ->with('i', (request()->input('page', 1) - 1) * $categories->perPage());
     }
@@ -31,6 +30,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Category::class);
         $category = new Category();
         return view('category.create', compact('category'));
     }
@@ -43,6 +43,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Category::class);
         request()->validate(Category::$rules);
 
         $category = Category::create($request->all());
@@ -59,6 +60,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('create', Category::class);
         $category = Category::find($id);
 
         return view('category.show', compact('category'));
@@ -72,6 +74,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('create', Category::class);
         $category = Category::find($id);
 
         return view('category.edit', compact('category'));
@@ -86,6 +89,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        $this->authorize('create', Category::class);
         request()->validate(Category::$rules);
 
         $category->update($request->all());
@@ -101,6 +105,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('create', Category::class);
         $category = Category::find($id)->delete();
 
         return redirect()->route('categories.index')

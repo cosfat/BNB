@@ -22,7 +22,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+          <!-- include('layouts.navigation') -->
 
             <!-- Page Heading -->
             @if (isset($header))
@@ -37,6 +37,30 @@
             <main>
                 {{ $slot }}
             </main>
+        </div>
+<style>
+    #button-container {
+        position: fixed;
+        bottom: 0;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        -webkit-box-shadow: 0px -1px 13px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px -1px 13px 0px rgba(0,0,0,0.75);
+        box-shadow: 0px -1px 13px 0px rgba(0,0,0,0.75);
+    }
+
+    .svgclass {
+        height: 30px;
+    }
+</style>
+        <div id="button-container">
+            <a href="/dashboard"><img class="svgclass" src="/svg/sum.svg"></a>
+            <a href="/expenses"><img class="svgclass" src="/svg/expense.svg"></a>
+                <a href="/reservations"><img class="svgclass" src="/svg/res.svg"></a>
+                    <a href="/profile"> <img class="svgclass" src="/svg/profile.svg"></a>
         </div>
     </body>
 </html>

@@ -6,6 +6,7 @@ use App\Models\House;
 use App\Models\Reservation;
 use App\Models\Worker;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 /**
  * Class ReservationController
@@ -18,11 +19,37 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $reservations = Reservation::orderBy('start', 'asc')->paginate();
+        if (isset($request->m)) {
+            $month = $request->m;
+        } else {
+            $month = date('m');
+        }
+        if (isset($request->y)) {
+            $year = $request->y;
+        } else {
+            $year = date('Y');
+        }
+        if (isset($request->c)) {
+            $c = $request->c;
+        } else {
+            $c = "1";
+        }
+        $houses = House::all();
+        $turkishMonth = Carbon::create($year, $month)->translatedFormat('F');
+        $oncekiAy = Carbon::create($year, $month)->subMonth();
+        $sonrakiAy = Carbon::create($year, $month)->addMonth();
+        if ($c == 10) {
+            $resQuery = Reservation::whereMonth('start', $month)->whereYear('start', $year)->orderBy('start', 'asc');
+        } else {
+            $resQuery = Reservation::whereMonth('start', $month)->whereYear('start', $year)->whereHouse_id($c)->orderBy('start', 'asc');
+        }
 
-        return view('reservation.index', compact('reservations'))
+        $reservations = $resQuery->paginate();
+        $resSum = $resQuery->sum('price');
+
+        return view('reservation.index', compact('c', 'month', 'year', 'houses', 'resSum', 'turkishMonth','oncekiAy', 'sonrakiAy', 'reservations'))
             ->with('i', (request()->input('page', 1) - 1) * $reservations->perPage());
     }
 
@@ -33,6 +60,7 @@ class ReservationController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Reservation::class);
         $reservation = new Reservation();
         $houses = House::all();
         $workers = Worker::all();
@@ -42,11 +70,12 @@ class ReservationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Reservation::class);
         request()->validate(Reservation::$rules);
 
         $reservation = Reservation::create($request->all());
@@ -58,11 +87,12 @@ class ReservationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
+        $this->authorize('create', Reservation::class);
         $reservation = Reservation::find($id);
 
         return view('reservation.show', compact('reservation'));
@@ -71,11 +101,12 @@ class ReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
+        $this->authorize('create', Reservation::class);
         $reservation = Reservation::find($id);
         $houses = House::all();
         $workers = Worker::all();
@@ -86,12 +117,13 @@ class ReservationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Reservation $reservation
+     * @param \Illuminate\Http\Request $request
+     * @param Reservation $reservation
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Reservation $reservation)
     {
+        $this->authorize('create', Reservation::class);
         request()->validate(Reservation::$rules);
 
         $reservation->update($request->all());
@@ -107,6 +139,7 @@ class ReservationController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('create', Reservation::class);
         $reservation = Reservation::find($id)->delete();
 
         return redirect()->route('reservations.index')

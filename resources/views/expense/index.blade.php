@@ -1,8 +1,25 @@
 <x-app-layout>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Expense') }}
+            {{ __('GİDERLER') }}: {{ $turkishMonth }} Ayı
         </h2>
+        <select id="categories" class="mt-1 block w-full" name="c">
+            <option value="10">Tüm giderler</option>
+            @foreach($categories as $category)
+                <option name="categories" @if($c == $category->id) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+
+        <div class="mt-2">
+            <x-primary-button><a href="?m={{ $oncekiAy->format('m') }}&y={{ $oncekiAy->format('Y') }}&c={{ $c }}"><- Önceki
+                    ay</a></x-primary-button>
+            <div class="float-right">
+                <x-primary-button><a href="?m={{ $sonrakiAy->format('m') }}&y={{ $sonrakiAy->format('Y') }}&c={{ $c }}">Sonraki
+                        ay -></a></x-primary-button>
+            </div>
+        </div>
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -17,17 +34,19 @@
                         <p>{{ $message }}</p>
                     </div>
                 @endif
-
+                <h2 class="text-lg font-medium text-gray-900 mt-4">
+                    Toplam: <strong>{{ $expenseSum }} TRY</strong>
+                </h2>
                 <div class="table-responsive">
                     <table class="table md:border-t-0">
                         <thead class="thead">
                         <tr>
                             <th>No</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>House</th>
-                            <th>Price</th>
-                            <th>Worker</th>
+                            <th>Gider</th>
+                            <th>Kategori</th>
+                            <th>Ev</th>
+                            <th>Tutar</th>
+                            <th>Ödeyen</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -40,7 +59,7 @@
                                 <td>{{ $expense->house->name }}</td>
                                 <td>{{ $expense->price }}</td>
                                 <td>{{ $expense->worker->name }}</td>
-                                <td>{{ $expense->created_at }}</td>
+                                <td>{{ \Carbon\Carbon::create($expense->created_at)->translatedFormat('d F Y') }}</td>
 
                                 <td>
                                     <form action="{{ route('expenses.destroy',$expense->id) }}" method="POST">
@@ -60,4 +79,10 @@
             </div>
         </div>
     </div>
+    <script>
+        $("#categories").change(function (){
+            var c = document.getElementById("categories").value;
+           location.href="/expenses?m={{ $month }}&y={{ $year }}&c="+c;
+        })
+    </script>
 </x-app-layout>

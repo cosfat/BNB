@@ -1,7 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
+            {{ __('Profilim') }}
+            <form method="POST" action="{{ route('logout') }}" class="float-right">
+                @csrf
+
+                <x-danger-button :href="route('logout')"
+                                 onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                    ÇIKIŞ
+                </x-danger-button>
         </h2>
     </x-slot>
 

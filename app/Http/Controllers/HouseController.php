@@ -31,6 +31,7 @@ class HouseController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', House::class);
         $house = new House();
         return view('house.create', compact('house'));
     }
@@ -43,6 +44,7 @@ class HouseController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', House::class);
         request()->validate(House::$rules);
 
         $house = House::create($request->all());
@@ -59,6 +61,7 @@ class HouseController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('create', House::class);
         $house = House::find($id);
 
         return view('house.show', compact('house'));
@@ -72,6 +75,7 @@ class HouseController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('create', House::class);
         $house = House::find($id);
 
         return view('house.edit', compact('house'));
@@ -86,6 +90,7 @@ class HouseController extends Controller
      */
     public function update(Request $request, House $house)
     {
+        $this->authorize('create', House::class);
         request()->validate(House::$rules);
 
         $house->update($request->all());
@@ -101,6 +106,7 @@ class HouseController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('create', House::class);
         $house = House::find($id)->delete();
 
         return redirect()->route('houses.index')

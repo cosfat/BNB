@@ -16,16 +16,16 @@
                         {{ __('Özet') }}
                     </x-nav-link>
                     <x-nav-link :href="route('houses.index')" :active="request()->routeIs('houses.index')">
-                        {{ __('Houses') }}
+                        {{ __('Evler') }}
                     </x-nav-link>
                     <x-nav-link :href="route('reservations.index')" :active="request()->routeIs('reservations.index')">
-                        {{ __('Reservations') }}
+                        {{ __('Rezervasyonlar') }}
                     </x-nav-link>
                     <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
-                        {{ __('Categories') }}
+                        {{ __('Kategoriler') }}
                     </x-nav-link>
                     <x-nav-link :href="route('expenses.index')" :active="request()->routeIs('expenses.index')">
-                        {{ __('Expenses') }}
+                        {{ __('Giderler') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -85,16 +85,16 @@
                 {{ __('Özet') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('houses.index')" :active="request()->routeIs('houses.index')">
-                {{ __('Houses') }}
+                {{ __('Evler') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('reservations.index')" :active="request()->routeIs('reservations.index')">
-                {{ __('Reservations') }}
+                {{ __('Rezervasyonlar') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
-                {{ __('Categories') }}
+                {{ __('Kategoriler') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('expenses.index')" :active="request()->routeIs('expenses.index')">
-                {{ __('Expenses') }}
+                {{ __('Giderler') }}
             </x-responsive-nav-link>
         </div>
         @if (Auth::check())

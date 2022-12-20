@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Expense;
 use App\Models\House;
 use App\Models\Worker;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 /**
@@ -19,11 +20,38 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $expenses = Expense::orderBy('id', 'desc')->paginate();
+        if (isset($request->m)) {
+            $month = $request->m;
+        } else {
+            $month = date('m');
+        }
+        if (isset($request->y)) {
+            $year = $request->y;
+        } else {
+            $year = date('Y');
+        }
+        if(isset($request->c)){
+            $c = $request->c;
+        }
+        else{
+            $c = "3";
+        }
+        $categories = Category::all();
+        $turkishMonth = Carbon::create($year, $month)->translatedFormat('F');
+        $oncekiAy = Carbon::create($year, $month)->subMonth();
+        $sonrakiAy = Carbon::create($year, $month)->addMonth();
+        if($c == 10){
+            $expensequery = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->orderBy('id', 'desc');
+        }
+        else{
+            $expensequery = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->whereCategory_id($c)->orderBy('id', 'desc');
+        }
 
-        return view('expense.index', compact('expenses'))
+        $expenses = $expensequery->paginate();
+        $expenseSum = $expensequery->sum('price');
+        return view('expense.index', compact('expenseSum','month', 'year', 'c','categories','oncekiAy', 'sonrakiAy','expenses', 'turkishMonth'))
             ->with('i', (request()->input('page', 1) - 1) * $expenses->perPage());
     }
 
@@ -34,6 +62,7 @@ class ExpenseController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Expense::class);
         $houses = House::all();
         $categories = Category::all();
         $workers = Worker::all();
@@ -49,6 +78,7 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Expense::class);
         request()->validate(Expense::$rules);
 
         $expense = Expense::create($request->all());
@@ -67,6 +97,7 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('create', Expense::class);
         $expense = Expense::find($id);
 
         return view('expense.show', compact('expense'));
@@ -80,6 +111,7 @@ class ExpenseController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('create', Expense::class);
         $expense = Expense::find($id);
         $houses = House::all();
         $categories = Category::all();
@@ -96,6 +128,7 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, Expense $expense)
     {
+        $this->authorize('create', Expense::class);
         request()->validate(Expense::$rules);
 
         $expense->update($request->all());
@@ -111,6 +144,7 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('create', Expense::class);
         $expense = Expense::find($id)->delete();
 
         return redirect()->route('expenses.index')

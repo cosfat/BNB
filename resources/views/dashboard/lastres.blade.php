@@ -21,8 +21,8 @@
                     <tr>
                         <td>{{ $lastReservation->name }}</td>
                         <td>{{ $lastReservation->house->name }}</td>
-                        <td>{{ $lastReservation->start }}</td>
-                        <td>{{ $lastReservation->finish }}</td>
+                        <td>{{ \Carbon\Carbon::create($lastReservation->start)->translatedFormat('d F Y') }}</td>
+                        <td>{{ \Carbon\Carbon::create($lastReservation->start)->translatedFormat('d F Y') }}</td>
                         <td>{{ $lastReservation->price }}</td>
                         <td>{{ $lastReservation->worker->name }}</td>
                         <td>{{ $lastReservation->info }}</td>

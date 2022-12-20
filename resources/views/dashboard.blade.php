@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Hoşgeldin')  }}!
+            HOŞGELDİN
 
-            <h2 class="text-lg font-medium text-gray-900">
+            <h2 class="text-lg font-medium text-gray-900 mt-2">
                 <strong>{{ $turkishMonth }}</strong> ayı özetini görüntülüyorsun
             </h2>
-            <div>
+            <div class="mt-2">
                 <x-primary-button><a href="?m={{ $oncekiAy->format('m') }}&y={{ $oncekiAy->format('Y') }}"><- Önceki
                         ay</a></x-primary-button>
                 <div class="float-right">
