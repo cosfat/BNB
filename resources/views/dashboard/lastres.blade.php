@@ -22,7 +22,7 @@
                         <td>{{ $lastReservation->name }}</td>
                         <td>{{ $lastReservation->house->name }}</td>
                         <td>{{ \Carbon\Carbon::create($lastReservation->start)->translatedFormat('d F') }}</td>
-                        <td>{{ \Carbon\Carbon::create($lastReservation->start)->translatedFormat('d F') }}</td>
+                        <td>{{ \Carbon\Carbon::create($lastReservation->finish)->translatedFormat('d F') }}</td>
                         <td>{{ $lastReservation->price }}</td>
                         <td>{{ $lastReservation->worker->name }}</td>
                         <td>{{ $lastReservation->info }}</td>
