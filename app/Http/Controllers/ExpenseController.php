@@ -32,26 +32,36 @@ class ExpenseController extends Controller
         } else {
             $year = date('Y');
         }
-        if(isset($request->c)){
+        if (isset($request->c)) {
             $c = $request->c;
+        } else {
+            $c = "10";
         }
-        else{
-            $c = "3";
+
+        if (isset($request->h)) {
+            $h = $request->h;
+        } else {
+            $h = "10";
         }
         $categories = Category::all();
+        $houses = House::all();
         $turkishMonth = Carbon::create($year, $month)->translatedFormat('F');
         $oncekiAy = Carbon::create($year, $month)->subMonth();
         $sonrakiAy = Carbon::create($year, $month)->addMonth();
-        if($c == 10){
-            $expensequery = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->orderBy('id', 'desc');
-        }
-        else{
-            $expensequery = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->whereCategory_id($c)->orderBy('id', 'desc');
+
+        if ($c == 10 and $h == 10) {
+            $expensequery = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year);
+        } elseif ($c != 10 and $h == 10) {
+            $expensequery = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->whereCategory_id($c);
+        } elseif ($h != 10 and $c == 10) {
+            $expensequery = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->whereHouse_id($h);
+        } else {
+            $expensequery = Expense::whereMonth('created_at', $month)->whereYear('created_at', $year)->whereCategory_id($c)->whereHouse_id("$h");
         }
 
-        $expenses = $expensequery->paginate();
+        $expenses = $expensequery->orderBy('id', 'desc')->paginate();
         $expenseSum = $expensequery->sum('price');
-        return view('expense.index', compact('expenseSum','month', 'year', 'c','categories','oncekiAy', 'sonrakiAy','expenses', 'turkishMonth'))
+        return view('expense.index', compact('h', 'houses', 'expenseSum', 'month', 'year', 'c', 'categories', 'oncekiAy', 'sonrakiAy', 'expenses', 'turkishMonth'))
             ->with('i', (request()->input('page', 1) - 1) * $expenses->perPage());
     }
 

@@ -8,15 +8,25 @@
         <select id="categories" class="mt-1 block w-full" name="c">
             <option value="10">Tüm giderler</option>
             @foreach($categories as $category)
-                <option name="categories" @if($c == $category->id) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
+                <option name="categories" @if($c == $category->id) selected
+                        @endif value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
         </select>
-
+        <select id="houses" class="mt-1 block w-full" name="c">
+            <option value="10">Tüm evler</option>
+            @foreach($houses as $house)
+                <option name="houses" @if($h == $house->id) selected
+                        @endif value="{{ $house->id }}">{{ $house->name }}</option>
+            @endforeach
+        </select>
         <div class="mt-2">
-            <x-primary-button><a href="?m={{ $oncekiAy->format('m') }}&y={{ $oncekiAy->format('Y') }}&c={{ $c }}"><- Önceki
+            <x-primary-button><a
+                    href="?m={{ $oncekiAy->format('m') }}&y={{ $oncekiAy->format('Y') }}&c={{ $c }}&h={{ $h }}"><-
+                    Önceki
                     ay</a></x-primary-button>
             <div class="float-right">
-                <x-primary-button><a href="?m={{ $sonrakiAy->format('m') }}&y={{ $sonrakiAy->format('Y') }}&c={{ $c }}">Sonraki
+                <x-primary-button><a
+                        href="?m={{ $sonrakiAy->format('m') }}&y={{ $sonrakiAy->format('Y') }}&c={{ $c }}&h={{ $h }}">Sonraki
                         ay -></a></x-primary-button>
             </div>
         </div>
@@ -80,9 +90,16 @@
         </div>
     </div>
     <script>
-        $("#categories").change(function (){
+        $("#categories").change(function () {
             var c = document.getElementById("categories").value;
-           location.href="/expenses?m={{ $month }}&y={{ $year }}&c="+c;
+            var h = document.getElementById("houses").value;
+            location.href = "/expenses?m={{ $month }}&y={{ $year }}&c=" + c + "&h=" + h;
+        })
+
+        $("#houses").change(function () {
+            var c = document.getElementById("categories").value;
+            var h = document.getElementById("houses").value;
+            location.href = "/expenses?m={{ $month }}&y={{ $year }}&c=" + c + "&h=" + h;
         })
     </script>
 </x-app-layout>
