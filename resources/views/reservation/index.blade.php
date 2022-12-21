@@ -54,8 +54,8 @@
                             <tr>
                                 <td>{{ $reservation->name }}</td>
                                 <td>{{ $reservation->house->name }}</td>
-                                <td>{{ \Carbon\Carbon::create($reservation->start)->translatedFormat('d F Y') }}</td>
-                                <td>{{ \Carbon\Carbon::create($reservation->finish)->translatedFormat('d F Y') }}</td>
+                                <td>{{ \Carbon\Carbon::create($reservation->start)->translatedFormat('d F') }}</td>
+                                <td>{{ \Carbon\Carbon::create($reservation->finish)->translatedFormat('d F') }}</td>
                                 <td>{{ $reservation->price }}</td>
                                 <td>{{ $reservation->worker->name }}</td>
                                 <td style="max-width: 100px">{{ $reservation->info }}</td>

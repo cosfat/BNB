@@ -59,7 +59,7 @@
                                 <td>{{ $expense->house->name }}</td>
                                 <td>{{ $expense->price }}</td>
                                 <td>{{ $expense->worker->name }}</td>
-                                <td>{{ \Carbon\Carbon::create($expense->created_at)->translatedFormat('d F Y') }}</td>
+                                <td>{{ \Carbon\Carbon::create($expense->created_at)->translatedFormat('d F') }}</td>
 
                                 <td>
                                     <form action="{{ route('expenses.destroy',$expense->id) }}" method="POST">
