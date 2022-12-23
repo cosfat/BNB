@@ -61,6 +61,8 @@ class ExpenseController extends Controller
 
         $expenses = $expensequery->orderBy('id', 'desc')->paginate();
         $expenseSum = $expensequery->sum('price');
+
+        session(['urlres'=>url()->full()]);
         return view('expense.index', compact('h', 'houses', 'expenseSum', 'month', 'year', 'c', 'categories', 'oncekiAy', 'sonrakiAy', 'expenses', 'turkishMonth'))
             ->with('i', (request()->input('page', 1) - 1) * $expenses->perPage());
     }
@@ -92,11 +94,11 @@ class ExpenseController extends Controller
         request()->validate(Expense::$rules);
 
         $expense = Expense::create($request->all());
-        /*   $expense->created_at = "2022-09-01";
-           $expense->update();*/
+           $expense->created_at = "2022-08-15";
+           $expense->update();
 
-        return redirect()->route('expenses.index')
-            ->with('success', 'Expense created successfully.');
+        return redirect(session('urlres'))
+            ->with('success', 'Expense created successfully');
     }
 
     /**
@@ -143,7 +145,7 @@ class ExpenseController extends Controller
 
         $expense->update($request->all());
 
-        return redirect()->route('expenses.index')
+        return redirect(session('urlres'))
             ->with('success', 'Expense updated successfully');
     }
 
@@ -157,7 +159,7 @@ class ExpenseController extends Controller
         $this->authorize('create', Expense::class);
         $expense = Expense::find($id)->delete();
 
-        return redirect()->route('expenses.index')
-            ->with('success', 'Expense deleted successfully');
+        return redirect(session('urlres'))
+        ->with('success', 'Expense deleted successfully');
     }
 }

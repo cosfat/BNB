@@ -7,6 +7,8 @@ use App\Models\Reservation;
 use App\Models\Worker;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class ReservationController
@@ -49,6 +51,9 @@ class ReservationController extends Controller
         $reservations = $resQuery->paginate();
         $resSum = $resQuery->sum('price');
 
+
+        session(['urlres'=>url()->full()]);
+
         return view('reservation.index', compact('c', 'month', 'year', 'houses', 'resSum', 'turkishMonth','oncekiAy', 'sonrakiAy', 'reservations'))
             ->with('i', (request()->input('page', 1) - 1) * $reservations->perPage());
     }
@@ -80,8 +85,7 @@ class ReservationController extends Controller
 
         $reservation = Reservation::create($request->all());
 
-        return redirect()->route('reservations.index')
-            ->with('success', 'Reservation created successfully.');
+        return redirect(session('urlres'))->with('success', 'Reservation created succesfully');
     }
 
     /**
@@ -128,7 +132,7 @@ class ReservationController extends Controller
 
         $reservation->update($request->all());
 
-        return redirect()->route('reservations.index')
+        return redirect(session('urlres'))
             ->with('success', 'Reservation updated successfully');
     }
 
@@ -142,7 +146,7 @@ class ReservationController extends Controller
         $this->authorize('create', Reservation::class);
         $reservation = Reservation::find($id)->delete();
 
-        return redirect()->route('reservations.index')
+        return redirect(session('urlres'))
             ->with('success', 'Reservation deleted successfully');
     }
 }
