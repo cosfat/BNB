@@ -18,7 +18,7 @@
     </div>
     <div class="mt-6">
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Bugün çıkışı olduğu') }}
+            {{ __('Bugün çıkışı olduğu') }}:
         </h2>
         @foreach($todaysExits as $todaysExit)
             <h4>{{ $todaysExit->house->name }}</h4>
