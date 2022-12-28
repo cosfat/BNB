@@ -29,8 +29,9 @@ class DashboardController extends Controller
         } else {
             $year = date('Y');
         }
+        $today = Carbon::now()->format('Y-m-d');
 
-        $lastReservations = Reservation::orderBy('id', 'desc')->limit(10)->get();
+        $lastReservations = Reservation::orderBy('start', 'desc')->limit(10)->get();
 
         $mesaiUcreti = 2000;
         $huzurOrani = 10;
@@ -57,6 +58,24 @@ class DashboardController extends Controller
             $kisiHarcamas[] = array($worker->name, $this->monthlyExpensesByWorker($month, $year, $worker->id));
         }
 
+        // Hesaplaşma hesaplamaları
+
+        // burada 2den 1i çıkarıyoruz
+        //Yani pozitif çıkarsa 2'ye borçluyuz
+        // Negatif çıkarsa 1'ye borçluyuz
+        $harcamaDengesi = round((($this->monthlyExpensesByWorker($month, $year, 2) - $this->monthlyExpensesByWorker($month, $year, 1)) / 2), 2);
+
+        //huzurcu 2 olduğu için başa onu yazıyoruz
+        $huzurVeMesaitoplamiFarklari = round(((($this->mesaiSayisi($month, $year, 2) * $mesaiUcreti) + ($bilanco * $huzurOrani / 100) - ($this->mesaiSayisi($month, $year, 1) * $mesaiUcreti)) / 2), 2);
+
+        $huzurMesaiveHarcamaFarki = $huzurVeMesaitoplamiFarklari + $harcamaDengesi;
+
+        // Bugün evlerin durumu
+        $todaysStays = Reservation::where('start', '<', $today)->where('finish', '>', $today)->get();
+        $todaysEntrys = Reservation::where('start', '=', $today)->get();
+        $todaysExits = Reservation::where('finish', '=', $today)->get();
+
+
         // Evlere göre
         $doluluks = array();
         $harcamas = array();
@@ -78,7 +97,7 @@ class DashboardController extends Controller
             $bilancos[] = array($house->name, round($this->bilancoByHouseMonthly($month, $year, $house->id), 2));
         }
 
-        return view('dashboard')->with(compact('lastReservations','records', 'expenses', 'bilanco', 'hesaplasma', 'doluluks', 'harcamas', 'bilancos', 'turkishMonth', 'oncekiAy', 'sonrakiAy', 'mesais', 'mesaiUcreti', 'huzurOrani', 'huzurSahibi', 'kisiHarcamas', 'lastExpenses'));
+        return view('dashboard')->with(compact('todaysStays','todaysEntrys', 'todaysExits', 'huzurMesaiveHarcamaFarki', 'lastReservations','records', 'expenses', 'bilanco', 'hesaplasma', 'doluluks', 'harcamas', 'bilancos', 'turkishMonth', 'oncekiAy', 'sonrakiAy', 'mesais', 'mesaiUcreti', 'huzurOrani', 'huzurSahibi', 'kisiHarcamas', 'lastExpenses'));
     }
 
     public function mesaiSayisi($m, $y, $w)

@@ -12,4 +12,8 @@
     <h2 class="text-lg font-medium text-gray-900">
         {{ __('EUR tahmini') }}: {{ round(($hesaplasma / 2)/19.6, 2)}}€
     </h2>
+
+    <h2 class="text-lg font-medium text-gray-900">
+        Mesai, huzur ve harcama farkı sonrası alacak verecek: <strong>{{ $huzurMesaiveHarcamaFarki }}</strong>
+    </h2>
 </section>
