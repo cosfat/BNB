@@ -36,7 +36,7 @@ class ReservationController extends Controller
         if (isset($request->c)) {
             $c = $request->c;
         } else {
-            $c = "1";
+            $c = "10";
         }
         $houses = House::all();
         $turkishMonth = Carbon::create($year, $month)->translatedFormat('F');
