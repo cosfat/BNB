@@ -9,7 +9,8 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     @includeif('partials.errors')
-                    <form method="POST" action="{{ route('designers.store') }}" role="form" enctype="multipart/form-data" class="mt-6 space-y-6">
+                    <form method="POST" action="{{ route('designers.store') }}" role="form"
+                          enctype="multipart/form-data" class="mt-6 space-y-6">
                         @csrf
                         @include('designer.form')
                     </form>

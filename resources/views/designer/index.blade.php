@@ -8,7 +8,8 @@
         <select id="houses" class="mt-1 block w-full" name="c">
             <option value="10">Tüm evler</option>
             @foreach($houses as $house)
-                <option name="houses" @if($c == $house->id) selected @endif value="{{ $house->id }}">{{ $house->name }}</option>
+                <option name="houses" @if($c == $house->id) selected
+                        @endif value="{{ $house->id }}">{{ $house->name }}</option>
             @endforeach
         </select>
 
@@ -73,13 +74,21 @@
                                 <td>{{ $designer->kargo }}</td>
                                 <td>{{ \Carbon\Carbon::create($designer->verilis)->translatedFormat('d F') }}</td>
                                 <td>{{ \Carbon\Carbon::create($designer->teslimat)->translatedFormat('d F') }}</td>
-                                <td>@if($designer->link != null)<a style="color: #2d3748" target="_blank" href="{{ $designer->link }}">{{ substr($designer->link, 11, 15) }}</a>@endif</td>
-                                <td>@if($designer->completed == 1) Evet @else Hayır @endif</td>
+                                <td>@if($designer->link != null)
+                                        <a style="color: #2d3748" target="_blank"
+                                           href="{{ $designer->link }}">{{ substr($designer->link, 11, 15) }}</a>
+                                    @endif</td>
+                                <td>@if($designer->completed == 1)
+                                        Evet
+                                    @else
+                                        Hayır
+                                    @endif</td>
                                 <td>{{ $designer->detay }}</td>
                                 <td>
                                     <form action="{{ route('designers.destroy',$designer->id) }}"
                                           method="POST">
-                                        <x-secondary-button><a href="{{ route('designers.edit',$designer->id) }}">Edit</a>
+                                        <x-secondary-button><a
+                                                href="{{ route('designers.edit',$designer->id) }}">Edit</a>
                                         </x-secondary-button>
                                         @csrf
                                         @method('DELETE')
@@ -96,9 +105,9 @@
         </div>
     </div>
     <script>
-        $("#houses").change(function (){
+        $("#houses").change(function () {
             var c = document.getElementById("houses").value;
-            location.href="/designers?c="+c;
+            location.href = "/designers?c=" + c;
         })</script>
 
 </x-app-layout>

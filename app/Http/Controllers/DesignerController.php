@@ -34,18 +34,16 @@ class DesignerController extends Controller
         $houses = House::all();
 
         if ($c == 10) {
-            if($completed == 3){
+            if ($completed == 3) {
                 $resQuery = Designer::where('id', '>', 0)->orderBy('created_at', 'desc');
-            }
-            else {
+            } else {
                 $resQuery = Designer::where('id', '>', 0)->where('completed', $completed)->orderBy('created_at', 'desc');
             }
         } else {
-            if($completed == 3){
+            if ($completed == 3) {
 
                 $resQuery = Designer::whereHouse_id($c)->orderBy('created_at', 'desc');
-            }
-            else {
+            } else {
 
                 $resQuery = Designer::whereHouse_id($c)->where('completed', $completed)->orderBy('created_at', 'desc');
             }
@@ -55,7 +53,7 @@ class DesignerController extends Controller
         $desSum = $resQuery->sum('price');
 
 
-        session(['urlres'=>url()->full()]);
+        session(['urlres' => url()->full()]);
         return view('designer.index', compact('designers', 'houses', 'c', 'desSum'))
             ->with('i', (request()->input('page', 1) - 1) * $designers->perPage());
     }
@@ -77,7 +75,7 @@ class DesignerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -86,7 +84,7 @@ class DesignerController extends Controller
         request()->validate(Designer::$rules);
 
         $designer = Designer::create($request->all());
-        if($designer->taksit == null OR $designer->taksit == 0){
+        if ($designer->taksit == null or $designer->taksit == 0) {
             $designer->taksit = 1;
             $designer->save();
         }
@@ -98,7 +96,7 @@ class DesignerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -113,7 +111,7 @@ class DesignerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -129,8 +127,8 @@ class DesignerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Designer $designer
+     * @param \Illuminate\Http\Request $request
+     * @param Designer $designer
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Designer $designer)

@@ -28,10 +28,10 @@ use Illuminate\Database\Eloquent\Model;
 class Designer extends Model
 {
     static $rules = [
-		'name' => 'required',
-		'house_id' => 'required',
-		'worker_id' => 'required',
-		'price' => 'required',
+        'name' => 'required',
+        'house_id' => 'required',
+        'worker_id' => 'required',
+        'price' => 'required',
     ];
 
     protected $perPage = 20;
@@ -41,7 +41,7 @@ class Designer extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','house_id','worker_id','price','taksit','kargo','verilis','teslimat','detay', 'completed', 'link'];
+    protected $fillable = ['name', 'house_id', 'worker_id', 'price', 'taksit', 'kargo', 'verilis', 'teslimat', 'detay', 'completed', 'link'];
 
 
     public function house(): \Illuminate\Database\Eloquent\Relations\BelongsTo
