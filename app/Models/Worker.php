@@ -40,5 +40,8 @@ class Worker extends Model
     {
         return $this->hasMany(Reservation::class);
     }
-
+    public function designers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Designer::class);
+    }
 }

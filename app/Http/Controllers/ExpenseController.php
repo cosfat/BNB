@@ -94,8 +94,8 @@ class ExpenseController extends Controller
         request()->validate(Expense::$rules);
 
         $expense = Expense::create($request->all());
-           $expense->created_at = "2022-08-15";
-           $expense->update();
+       /*    $expense->created_at = "2022-08-15";
+           $expense->update(); */
 
         return redirect(session('urlres'))
             ->with('success', 'Expense created successfully');

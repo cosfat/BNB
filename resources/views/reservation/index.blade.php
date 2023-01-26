@@ -45,6 +45,7 @@
                             <th>Giriş</th>
                             <th>Çıkış</th>
                             <th>Tutar</th>
+                            <th>Euro</th>
                             <th>Mesai</th>
                             <th>Notlar</th>
                         </tr>
@@ -57,6 +58,7 @@
                                 <td>{{ \Carbon\Carbon::create($reservation->start)->translatedFormat('d F') }}</td>
                                 <td>{{ \Carbon\Carbon::create($reservation->finish)->translatedFormat('d F') }}</td>
                                 <td>{{ $reservation->price }}</td>
+								<td>{{ round($reservation->price / 19.55, 2) }}</td>
                                 <td>{{ $reservation->worker->name }}</td>
                                 <td style="max-width: 100px">{{ $reservation->info }}</td>
 

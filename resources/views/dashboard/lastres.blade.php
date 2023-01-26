@@ -1,5 +1,5 @@
 <section>
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">SON REZERVASYONLAR</h2>
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $turkishMonth }} AYI REZERVASYONLAR</h2>
     <div class="table-responsive">
         <div class="table-responsive">
             <table class="table md:border-t-0">

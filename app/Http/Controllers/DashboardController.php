@@ -33,8 +33,8 @@ class DashboardController extends Controller
 
         $lastReservations = Reservation::orderBy('start', 'desc')->limit(10)->get();
 
-        $mesaiUcreti = 2000;
-        $huzurOrani = 10;
+        $mesaiUcreti = 3000;
+        $huzurOrani = 0;
         $huzurSahibi = 2; //worker ID Zafer;
         $turkishMonth = Carbon::create($year, $month)->translatedFormat('F');
 
