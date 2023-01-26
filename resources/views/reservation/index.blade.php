@@ -50,6 +50,7 @@
                             <th>Notlar</th>
                         </tr>
                         </thead>
+
                         <tbody>
                         @foreach ($reservations as $reservation)
                             <tr>
