@@ -36,6 +36,11 @@ class House extends Model
         return $this->hasMany(Reservation::class);
     }
 
+    public function designers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Designer::class);
+    }
+
     public function expenses(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Expense::class);

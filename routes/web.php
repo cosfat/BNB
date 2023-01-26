@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('houses', \App\Http\Controllers\HouseController::class);
+    Route::resource('designers', \App\Http\Controllers\DesignerController::class);
     Route::resource('workers', \App\Http\Controllers\WorkerController::class);
     Route::resource('reservations', \App\Http\Controllers\ReservationController::class);
     Route::resource('expenses', \App\Http\Controllers\ExpenseController::class);
