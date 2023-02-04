@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Designer;
 use App\Models\House;
+use App\Models\Room;
 use App\Models\Worker;
 use Illuminate\Http\Request;
 
@@ -21,40 +22,25 @@ class DesignerController extends Controller
 
     public function index(Request $request)
     {
-        if (isset($request->c)) {
-            $c = $request->c;
-        } else {
-            $c = "10";
+        $query = Designer::query();
+        if (isset($request->house)) {
+            $query = $query->where('house_id', $request->house);
         }
         if (isset($request->completed)) {
-            $completed = $request->completed;
-        } else {
-            $completed = "3";
+            $query = $query->where('completed', $request->completed);
         }
+        if (isset($request->room)) {
+            $query = $query->where('room_id', $request->room);
+        }
+
         $houses = House::all();
+        $rooms = Room::all();
 
-        if ($c == 10) {
-            if ($completed == 3) {
-                $resQuery = Designer::where('id', '>', 0)->orderBy('created_at', 'desc');
-            } else {
-                $resQuery = Designer::where('id', '>', 0)->where('completed', $completed)->orderBy('created_at', 'desc');
-            }
-        } else {
-            if ($completed == 3) {
-
-                $resQuery = Designer::whereHouse_id($c)->orderBy('created_at', 'desc');
-            } else {
-
-                $resQuery = Designer::whereHouse_id($c)->where('completed', $completed)->orderBy('created_at', 'desc');
-            }
-        }
-
-        $designers = $resQuery->paginate();
-        $desSum = $resQuery->sum('price');
-
+        $designers = $query->paginate(100);
+        $desSum = $query->sum('price');
 
         session(['urlres' => url()->full()]);
-        return view('designer.index', compact('designers', 'houses', 'c', 'desSum'))
+        return view('designer.index', compact('designers', 'houses', 'desSum', 'request', 'rooms'))
             ->with('i', (request()->input('page', 1) - 1) * $designers->perPage());
     }
 
@@ -68,8 +54,9 @@ class DesignerController extends Controller
         $this->authorize('create', Designer::class);
         $designer = new Designer();
         $houses = House::all();
+        $rooms = Room::all();
         $workers = Worker::all();
-        return view('designer.create', compact('designer', 'houses', 'workers'));
+        return view('designer.create', compact('designer', 'houses', 'workers', 'rooms'));
     }
 
     /**
@@ -119,9 +106,10 @@ class DesignerController extends Controller
         $this->authorize('create', Designer::class);
         $designer = Designer::find($id);
         $houses = House::all();
+        $rooms = Room::all();
         $workers = Worker::all();
 
-        return view('designer.edit', compact('designer', 'houses', 'workers'));
+        return view('designer.edit', compact('designer', 'houses', 'workers', 'rooms'));
     }
 
     /**

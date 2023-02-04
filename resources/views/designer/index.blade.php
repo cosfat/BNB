@@ -6,23 +6,30 @@
         </h2>
 
         <select id="houses" class="mt-1 block w-full" name="c">
-            <option value="10">Tüm evler</option>
+            <option value="">Tüm evler</option>
             @foreach($houses as $house)
-                <option name="houses" @if($c == $house->id) selected
+                <option name="houses" @if($request->house == $house->id) selected
                         @endif value="{{ $house->id }}">{{ $house->name }}</option>
+            @endforeach
+        </select>
+        <select id="rooms" class="mt-1 block w-full" name="rooms">
+            <option value="">Tüm odalar</option>
+            @foreach($rooms as $room)
+                <option name="rooms" @if($request->room == $room->id) selected
+                        @endif value="{{ $room->id }}">{{ $room->name }}</option>
             @endforeach
         </select>
 
         <div class="flex items-center gap-4 mt-4">
-            <a href="/designers?completed=3&c={{ $c }}">
+            <a href="/designers?&house={{ $request->house }}&room={{ $request->room }}">
                 <x-primary-button>{{ __('Tüm objeler') }}</x-primary-button>
             </a>
 
-            <a href="/designers?completed=0&c={{ $c }}">
+            <a href="/designers?completed=0&house={{ $request->house }}&room={{ $request->room }}">
                 <x-danger-button>{{ __('Satın alınacaklar') }}</x-danger-button>
             </a>
 
-            <a href="/designers?completed=1&c={{ $c }}">
+            <a href="/designers?completed=1&house={{ $request->house }}&room={{ $request->room }}">
                 <x-secondary-button>{{ __('Satın alınmışlar') }}</x-secondary-button>
             </a>
         </div>
@@ -50,6 +57,7 @@
                         <tr>
                             <th>Obje</th>
                             <th>Ev</th>
+                            <th>Oda</th>
                             <th>Tutar</th>
                             <th>Ödeyen</th>
                             <th>Taksit Sayısı</th>
@@ -67,6 +75,7 @@
                             <tr>
                                 <td>{{ $designer->name }}</td>
                                 <td>{{ $designer->house->name }}</td>
+                                <td>{{ $designer->room->name }}</td>
                                 <td>{{ $designer->price }}</td>
                                 <td>{{ $designer->worker->name }}</td>
                                 <td>{{ $designer->taksit }}</td>
@@ -107,7 +116,13 @@
     <script>
         $("#houses").change(function () {
             var c = document.getElementById("houses").value;
-            location.href = "/designers?c=" + c;
+            location.href = "/designers?house=" + c + "&room={{ $request->room }}";
+        })
+        $("#rooms").change(function () {
+            var r = document.getElementById("rooms").value;
+            location.href = "/designers?house={{ $request->house }}&room=" + r;
         })</script>
+
+    </script>
 
 </x-app-layout>

@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('designers', \App\Http\Controllers\DesignerController::class);
     Route::resource('workers', \App\Http\Controllers\WorkerController::class);
     Route::resource('reservations', \App\Http\Controllers\ReservationController::class);
+    Route::resource('rooms', \App\Http\Controllers\RoomController::class);
     Route::resource('expenses', \App\Http\Controllers\ExpenseController::class);
     Route::resource('categories', \App\Http\Controllers\CategoryController::class);
 });
