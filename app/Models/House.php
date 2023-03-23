@@ -46,4 +46,9 @@ class House extends Model
         return $this->hasMany(Expense::class);
     }
 
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
+
 }

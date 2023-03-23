@@ -12,8 +12,11 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('designers', function (Blueprint $table) {
-            $table->text('link')->nullable();
+        Schema::create('rooms', function (Blueprint $table) {
+            $table->id();
+            $table->integer('house_id');
+            $table->text('name');
+            $table->timestamps();
         });
     }
 
@@ -24,8 +27,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('designers', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('rooms');
     }
 };

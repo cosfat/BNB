@@ -15,7 +15,16 @@
     </select>
     {!! $errors->first('house_id', '<div class="invalid-feedback">:message</div>') !!}
 </div>
-
+<div>
+    <x-input-label for="room_id" :value="__('Room name')"/>
+    <select name="room_id" id="room_id" class="mt-1 block w-full">
+        @foreach ($rooms as $room)
+            <option @if($designer->room_id == $room->id) selected
+                    @endif value="{{ $room->id }}">{{ $room->name }}</option>
+        @endforeach
+    </select>
+    {!! $errors->first('room_id', '<div class="invalid-feedback">:message</div>') !!}
+</div>
 <div>
     <x-input-label for="worker_id" :value="__('Ödeyen')"/>
     <select name="worker_id" id="worker_id" class="mt-1 block w-full">

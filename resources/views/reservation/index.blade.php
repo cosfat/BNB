@@ -2,17 +2,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          Rezervasyonlar: {{ $turkishMonth }} Ayı
+            Rezervasyonlar: {{ $turkishMonth }} Ayı ({{ $reservations->count() }} adet)
         </h2>
         <select id="houses" class="mt-1 block w-full" name="c">
             <option value="10">Tüm evler</option>
             @foreach($houses as $house)
-                <option name="houses" @if($c == $house->id) selected @endif value="{{ $house->id }}">{{ $house->name }}</option>
+                <option name="houses" @if($c == $house->id) selected
+                        @endif value="{{ $house->id }}">{{ $house->name }}</option>
             @endforeach
         </select>
 
         <div class="mt-2">
-            <x-primary-button><a href="?m={{ $oncekiAy->format('m') }}&y={{ $oncekiAy->format('Y') }}&c={{ $c }}"><- Önceki
+            <x-primary-button><a href="?m={{ $oncekiAy->format('m') }}&y={{ $oncekiAy->format('Y') }}&c={{ $c }}"><-
+                    Önceki
                     ay</a></x-primary-button>
             <div class="float-right">
                 <x-primary-button><a href="?m={{ $sonrakiAy->format('m') }}&y={{ $sonrakiAy->format('Y') }}&c={{ $c }}">Sonraki

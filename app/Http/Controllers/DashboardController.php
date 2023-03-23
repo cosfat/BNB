@@ -31,7 +31,7 @@ class DashboardController extends Controller
         }
         $today = Carbon::now()->format('Y-m-d');
 
-        $lastReservations = Reservation::orderBy('start', 'desc')->limit(10)->get();
+        $lastReservations = Reservation::whereMonth('start', $month)->whereYear('start', $year)->orderBy('start', 'desc')->get();
 
         $mesaiUcreti = 3000;
         $huzurOrani = 0;
@@ -97,7 +97,7 @@ class DashboardController extends Controller
             $bilancos[] = array($house->name, round($this->bilancoByHouseMonthly($month, $year, $house->id), 2));
         }
 
-        return view('dashboard')->with(compact('todaysStays','todaysEntrys', 'todaysExits', 'huzurMesaiveHarcamaFarki', 'lastReservations','records', 'expenses', 'bilanco', 'hesaplasma', 'doluluks', 'harcamas', 'bilancos', 'turkishMonth', 'oncekiAy', 'sonrakiAy', 'mesais', 'mesaiUcreti', 'huzurOrani', 'huzurSahibi', 'kisiHarcamas', 'lastExpenses'));
+        return view('dashboard')->with(compact('month', 'year', 'todaysStays', 'todaysEntrys', 'todaysExits', 'huzurMesaiveHarcamaFarki', 'lastReservations', 'records', 'expenses', 'bilanco', 'hesaplasma', 'doluluks', 'harcamas', 'bilancos', 'turkishMonth', 'oncekiAy', 'sonrakiAy', 'mesais', 'mesaiUcreti', 'huzurOrani', 'huzurSahibi', 'kisiHarcamas', 'lastExpenses'));
     }
 
     public function mesaiSayisi($m, $y, $w)
@@ -111,11 +111,11 @@ class DashboardController extends Controller
     public function monthlyReservations($m, $y, $h = "")
     {
         if ($h == "") {
-            return $records = Reservation::where(function ($query) use ($m, $y) {
+            return Reservation::where(function ($query) use ($m, $y) {
                 $query->whereMonth('start', $m)->whereMonth('finish', $m)->whereYear('start', $y)->whereYear('finish', $y);
             })->orWhere(function ($query) use ($m, $y) {
                 $query->where('start', '<', Carbon::create($y, $m))->where(function ($query) use ($m, $y) {
-                    $query->whereMonth('finish', $m)->orWhere('finish', '>', Carbon::create($y, $m));
+                    $query->whereMonth('finish', $m)->whereYear('finish', $y)->orWhere('finish', '>', Carbon::create($y, $m));
                 });
             })->orWhere(function ($query) use ($m, $y) {
                 $query->whereMonth('start', $m)->where('finish', '>', Carbon::create($y, $m));
@@ -125,7 +125,7 @@ class DashboardController extends Controller
                 $query->whereHouse_id($h)->whereMonth('start', $m)->whereMonth('finish', $m)->whereYear('start', $y)->whereYear('finish', $y);
             })->orWhere(function ($query) use ($m, $y, $h) {
                 $query->whereHouse_id($h)->where('start', '<', Carbon::create($y, $m))->where(function ($query) use ($m, $y, $h) {
-                    $query->whereHouse_id($h)->whereMonth('finish', $m)->orWhere('finish', '>', Carbon::create($y, $m));
+                    $query->whereHouse_id($h)->whereMonth('finish', $m)->whereYear('finish', $y)->orWhere('finish', '>', Carbon::create($y, $m));
                 });
             })->orWhere(function ($query) use ($m, $y, $h) {
                 $query->whereHouse_id($h)->whereMonth('start', $m)->where('finish', '>', Carbon::create($y, $m));
