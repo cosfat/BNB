@@ -10,7 +10,7 @@
     </h2>
 
     <h2 class="text-lg font-medium text-gray-900">
-        {{ __('EUR tahmini') }}: {{ round(($hesaplasma / 2)/19.6, 2)}}€
+        {{ __('EUR tahmini') }}: {{ round(($hesaplasma / 2)/28.4, 2)}}€
     </h2>
 
     <h2 class="text-lg font-medium text-gray-900">

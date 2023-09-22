@@ -33,7 +33,7 @@ class DashboardController extends Controller
 
         $lastReservations = Reservation::whereMonth('start', $month)->whereYear('start', $year)->orderBy('start', 'desc')->get();
 
-        $mesaiUcreti = 3000;
+        $mesaiUcreti = 5000;
         $huzurOrani = 0;
         $huzurSahibi = 2; //worker ID Zafer;
         $turkishMonth = Carbon::create($year, $month)->translatedFormat('F');
