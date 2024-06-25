@@ -61,7 +61,7 @@
                                 <td>{{ \Carbon\Carbon::create($reservation->start)->translatedFormat('d F') }}</td>
                                 <td>{{ \Carbon\Carbon::create($reservation->finish)->translatedFormat('d F') }}</td>
                                 <td>{{ $reservation->price }}</td>
-                                <td>{{ round($reservation->price / 29, 2) }}</td>
+                                <td>{{ round($reservation->price / 35, 2) }}</td>
                                 <td>{{ $reservation->worker->name }}</td>
                                 <td style="max-width: 100px">{{ $reservation->info }}</td>
 
