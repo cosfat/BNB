@@ -29,11 +29,32 @@
             </thead>
             <tbody>
             @foreach($bilancos as $bilanco)
-
                 <tr>
                     <td>{{ $bilanco[0] }}</td>
                     <td><span style="color: forestgreen">{{ $bilanco[1] }}</span></td>
                 </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive">
+        <table class="table md:border-t-0">
+            <thead class="thead">
+            <tr>
+                <th>Ev</th>
+                <th>Kâr</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($bilancos as $bilanco)
+                @foreach($harcamas as $harcama)
+                    @if($harcama[0] == $bilanco[0])
+                        <tr>
+                            <td>{{ $harcama[0] }}</td>
+                            <td><span style="color: forestgreen">{{ $bilanco[1] - $harcama[1] }}</span></td>
+                        </tr>
+                    @endif
+                @endforeach
             @endforeach
             </tbody>
         </table>
